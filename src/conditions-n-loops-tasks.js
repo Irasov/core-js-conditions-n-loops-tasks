@@ -41,8 +41,17 @@ function isPositive(number) {
  *  -5, 0, 5      => 5
  *  -0.1, 0, 0.2  => 0.2
  */
-function getMaxNumber(/* a, b, c */) {
-  throw new Error('Not implemented');
+function getMaxNumber(a, b, c) {
+  let big = 0;
+  if (a > b) {
+    big = a;
+  } else {
+    big = b;
+  }
+  if (big > c) {
+    return big;
+  }
+  return c;
 }
 
 /**
@@ -63,8 +72,15 @@ function getMaxNumber(/* a, b, c */) {
  * {x: 1, y: 1}, {x: 2, y: 8} => false
  * {x: 1, y: 1}, {x: 2, y: 8} => false
  */
-function canQueenCaptureKing(/* queen, king */) {
-  throw new Error('Not implemented');
+function canQueenCaptureKing(queen, king) {
+  if (
+    queen.x === king.x ||
+    queen.y === king.y ||
+    Math.abs(king.x - queen.x) === Math.abs(king.y - queen.y)
+  ) {
+    return true;
+  }
+  return false;
 }
 
 /**
@@ -85,8 +101,22 @@ function canQueenCaptureKing(/* queen, king */) {
  *  2, 2, 5   => false
  *  3, 0, 3   => false
  */
-function isIsoscelesTriangle(/* a, b, c */) {
-  throw new Error('Not implemented');
+function isIsoscelesTriangle(a, b, c) {
+  if (a === 0 || b === 0 || c === 0) return false;
+  if (a === b) {
+    if (a + b > c) {
+      return true;
+    }
+  } else if (a === c) {
+    if (a + c > b) {
+      return true;
+    }
+  } else if (b === c) {
+    if (b + c > a) {
+      return true;
+    }
+  }
+  return false;
 }
 
 /**
@@ -103,8 +133,14 @@ function isIsoscelesTriangle(/* a, b, c */) {
  *  10  => X
  *  26  => XXVI
  */
-function convertToRomanNumerals(/* num */) {
-  throw new Error('Not implemented');
+function convertToRomanNumerals(num) {
+  if (num < 1) return '';
+  if (num >= 10) return `X${convertToRomanNumerals(num - 10)}`;
+  if (num === 9) return `IX${convertToRomanNumerals(num - 9)}`;
+  if (num >= 5) return `V${convertToRomanNumerals(num - 5)}`;
+  if (num === 4) return `IV${convertToRomanNumerals(num - 4)}`;
+  if (num >= 1) return `I${convertToRomanNumerals(num - 1)}`;
+  return '';
 }
 
 /**
@@ -122,8 +158,57 @@ function convertToRomanNumerals(/* num */) {
  *  '10,5'    => 'one zero point five'
  *  '1950.2'  => 'one nine five zero point two'
  */
-function convertNumberToString(/* numberStr */) {
-  throw new Error('Not implemented');
+function convertNumberToString(numberStr) {
+  let res = '';
+  for (let i = 0; i < numberStr.length; i += 1) {
+    switch (numberStr[i]) {
+      case '0':
+        res += 'zero';
+        break;
+      case '1':
+        res += 'one';
+        break;
+      case '2':
+        res += 'two';
+        break;
+      case '3':
+        res += 'three';
+        break;
+      case '4':
+        res += 'four';
+        break;
+      case '5':
+        res += 'five';
+        break;
+      case '6':
+        res += 'six';
+        break;
+      case '7':
+        res += 'seven';
+        break;
+      case '8':
+        res += 'eight';
+        break;
+      case '9':
+        res += 'nine';
+        break;
+      case '.':
+        res += 'point';
+        break;
+      case ',':
+        res += 'point';
+        break;
+      case '-':
+        res += 'minus';
+        break;
+      default:
+        res = '';
+    }
+    if (i + 1 < numberStr.length) {
+      res += ' ';
+    }
+  }
+  return res;
 }
 
 /**
