@@ -427,26 +427,25 @@ function rotateMatrix(matrix) {
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
 function sortByAsc(arr) {
-  const nArray = arr;
-  if (nArray.length === 0) {
-    return [];
-  }
-  const a = [];
-  const b = [];
-  const pivot = nArray[0];
-  for (let i = 1; i < nArray.length; i += 1) {
-    if (nArray[i] < pivot) {
-      a[a.length] = nArray[i];
-    } else {
-      b[b.length] = nArray[i];
+  let nArr = arr;
+  const newArray = arr;
+  function quickSort(mas) {
+    if (mas.length === 0) return [];
+    const a = [];
+    const b = [];
+    const p = mas[0];
+    for (let k = 1; k < mas.length; k += 1) {
+      if (mas[k] < p) a[a.length] = mas[k];
+      else b[b.length] = mas[k];
     }
+    const res = [...quickSort(a), p, ...quickSort(b)];
+    return res;
   }
-  const result = [...sortByAsc(a), pivot, ...sortByAsc(b)];
-
+  nArr = quickSort(arr);
   for (let i = 0; i < arr.length; i += 1) {
-    nArray[i] = result[i];
+    newArray[i] = nArr[i];
   }
-  return nArray;
+  return nArr;
 }
 
 /**
@@ -505,8 +504,44 @@ function shuffleChar(str, iterations) {
  * @param {number} number The source number
  * @returns {number} The nearest larger number, or original number if none exists.
  */
-function getNearestBigger(/* number */) {
-  throw new Error('Not implemented');
+function getNearestBigger(number) {
+  function quickSort(arr) {
+    if (arr.length === 0) return [];
+    const a = [];
+    const b = [];
+    const p = arr[0];
+    for (let k = 1; k < arr.length; k += 1) {
+      if (arr[k] < p) a.push(arr[k]);
+      else b.push(arr[k]);
+    }
+    return [...quickSort(a), p, ...quickSort(b)];
+  }
+  const res = Array.from(`${number}`, Number);
+  let mPart = [];
+  let stop = 0;
+  let i = res.length;
+  while (stop !== 1) {
+    if (i === 0) return number;
+    if (res[i - 1] < res[i]) {
+      const fFound = res[i - 1];
+      const part = res.splice(i);
+      mPart = res;
+      const tempMas = quickSort(part);
+      let l = 0;
+      while (l <= tempMas.length - 1) {
+        if (fFound < tempMas[l]) {
+          const moreFound = tempMas[l];
+          mPart[mPart.length - 1] = moreFound;
+          part[part.findIndex((item) => item === moreFound)] = fFound;
+          return +[...mPart, ...quickSort(part)].join('');
+        }
+        l += 1;
+      }
+      stop = 1;
+    }
+    i -= 1;
+  }
+  return number;
 }
 
 module.exports = {
